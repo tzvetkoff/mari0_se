@@ -275,10 +275,10 @@ function game_update(dt)
 				gelcannontimer = 0
 			end
 		else
-			if love.mouse.isDown("l") then
+			if love.mouse.isDown(1) then
 				gelcannontimer = gelcannondelay
 				objects["player"][mouseowner]:shootgel(1)
-			elseif love.mouse.isDown("r") then
+			elseif love.mouse.isDown(2) then
 				gelcannontimer = gelcannondelay
 				objects["player"][mouseowner]:shootgel(2)
 			end
@@ -3955,7 +3955,7 @@ function game_mousepressed(x, y, button)
 
 		if not noupdate and objects["player"][mouseowner] and objects["player"][mouseowner].controlsenabled and objects["player"][mouseowner].vine == false then
 
-			if button == "l" or button == "r" and objects["player"][mouseowner] then
+			if button == 1 or button == 2 and objects["player"][mouseowner] then
 				--knockback
 				if portalknockback then
 					local xadd = math.sin(objects["player"][mouseowner].pointingangle)*30
@@ -3968,7 +3968,7 @@ function game_mousepressed(x, y, button)
 				end
 			end
 
-			if button == "l" then
+			if button == 1 then
 				if playertype == "portal" then
 					local sourcex = objects["player"][mouseowner].x+6/16
 					local sourcey = objects["player"][mouseowner].y+6/16
@@ -3980,7 +3980,7 @@ function game_mousepressed(x, y, button)
 					end
 				end
 
-			elseif button == "r" then
+			elseif button == 2 then
 				if playertype == "portal" then
 					local sourcex = objects["player"][mouseowner].x+6/16
 					local sourcey = objects["player"][mouseowner].y+6/16

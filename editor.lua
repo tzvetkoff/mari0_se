@@ -315,7 +315,7 @@ function editor_update(dt)
 		end
 
 		if editorstate == "lightdraw" then
-			if love.mouse.isDown("l") then
+			if love.mouse.isDown(1) then
 				local mousex, mousey = mouse.getPosition()
 				local currentx, currenty = getMouseTile(mousex, mousey+8*scale)
 
@@ -407,12 +407,12 @@ function editor_update(dt)
 			return
 		end
 
-		if love.mouse.isDown("l") and allowdrag then
+		if love.mouse.isDown(1) and allowdrag then
 			local x, y = mouse.getPosition()
 			placetile(x, y)
 		end
 	elseif editorstate == "main" then
-		if love.mouse.isDown("l") then
+		if love.mouse.isDown(1) then
 			local mousex, mousey = mouse.getPosition()
 			if mousey >= minimapy*scale and mousey < (minimapy+minimapheight*2+4)*scale then
 				if mousex >= minimapx*scale and mousex < (minimapx+394)*scale then
@@ -1933,7 +1933,7 @@ function editor_mousepressed(x, y, button)
 
 	if rightclickm then
 		allowdrag = false
-		if button == "r" or not rightclickm:mousepressed(x, y, button) then
+		if button == 2 or not rightclickm:mousepressed(x, y, button) then
 			closerightclickmenu()
 			return
 		else
@@ -1952,7 +1952,7 @@ function editor_mousepressed(x, y, button)
 		end
 	end
 
-	if button == "l" then
+	if button == 1 then
 		if editormenuopen == false then
 			if editorstate == "lightdraw" then
 				lightdrawX, lightdrawY = getMouseTile(x, y+8*scale)
@@ -2012,7 +2012,7 @@ function editor_mousepressed(x, y, button)
 				end
 			end
 		end
-	elseif button == "m" then
+	elseif button == 3 then
 		local cox, coy = getMouseTile(x, y+8*scale)
 		if inmap(cox, coy) == false then
 			return
@@ -2087,7 +2087,7 @@ function editor_mousepressed(x, y, button)
 			end
 		end
 
-	elseif button == "r" then
+	elseif button == 2 then
 		if editormenuopen == false then
 			local tileX, tileY = getMouseTile(x, y+8*scale)
 			if inmap(tileX, tileY) == false then
@@ -2141,7 +2141,7 @@ function editor_mousereleased(x, y, button)
 		return
 	end
 
-	if button == "l" then
+	if button == 1 then
 		if selectiondragging then
 			selectionend()
 		end

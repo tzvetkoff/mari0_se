@@ -519,7 +519,7 @@ end
 function guielement:click(x, y, button)
 	if self.active then
 		if self.type == "checkbox" then
-			if button == "l" then
+			if button == 1 then
 				if self:inhighlight(x, y) then
 					if not self.func then
 						self.var = not self.var
@@ -533,7 +533,7 @@ function guielement:click(x, y, button)
 				self.scrollbar:click(x, y, button)
 			end
 
-			if button == "l" then
+			if button == 1 then
 				if self.extended == false then
 					if self:inhighlight(x, y) then
 						self.extended = true
@@ -572,7 +572,7 @@ function guielement:click(x, y, button)
 				self.scrollbar:click(x, y, button)
 			end
 
-			if button == "l" then
+			if button == 1 then
 				if self.extended == false then
 					if self:inhighlight(x, y) then
 						self.extended = true
@@ -602,7 +602,7 @@ function guielement:click(x, y, button)
 				return true
 			end
 		elseif self.type == "rightclick" then --Not used anymore I think?
-			if button == "l" then
+			if button == 1 then
 				local high = self:inhighlight(x, y)
 
 				if high then
@@ -613,7 +613,7 @@ function guielement:click(x, y, button)
 				end
 			end
 		elseif self.type == "button" then
-			if button == "l" then
+			if button == 1 then
 				if self:inhighlight(x, y) then
 					self.holding = true
 
@@ -624,7 +624,7 @@ function guielement:click(x, y, button)
 				end
 			end
 		elseif self.type == "scrollbar" then
-			if button == "l" then
+			if button == 1 then
 				if self.dir == "ver" then
 					if self:inhighlight(x, y) then
 						self.dragging = true
@@ -648,7 +648,7 @@ function guielement:click(x, y, button)
 				end
 			end
 		elseif self.type == "input" then
-			if button == "l" then
+			if button == 1 then
 				if self:inhighlight(x, y) then
 					self.inputting = true
 					self.timer = 0

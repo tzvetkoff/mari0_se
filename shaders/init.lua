@@ -1,11 +1,3 @@
-local supported = love.graphics.isSupported and love.graphics.isSupported("canvas") and love.graphics.isSupported("shader")
-local supports_npo2 = love.graphics.isSupported and love.graphics.isSupported("npot") or false -- on the safe side
-if not supported then
-	shaderssupported = false
-	print("post-processing shaders not supported")
-end
-
-
 local function FindNextPO2(x)
 	return 2 ^ math.ceil(math.log(x)/math.log(2))
 end
@@ -13,7 +5,6 @@ end
 
 shaders = {}
 shaders.effects = {}
-shaders.supported = supported
 
 local function CreateShaderPass()
 	local pass = {
@@ -23,11 +14,10 @@ local function CreateShaderPass()
 		yres = height*16*scale,
 	}
 
-	function pass:useCanvas(usenpo2)
-		local po2xr = usenpo2 and shaders.xres or shaders.po2xres
-		local po2yr = usenpo2 and shaders.yres or shaders.po2yres
-
-		local c = usenpo2 and self.canvas_npo2 or self.canvas_po2
+	function pass:useCanvas()
+		local po2xr = shaders.xres
+		local po2yr = shaders.yres
+		local c = self.canvas_npo2
 
 		if not c or c.canvas:getWidth() ~= po2xr or c.canvas:getHeight() ~= po2yr then
 			c = {}
@@ -42,11 +32,7 @@ local function CreateShaderPass()
 				self.on = false
 				return
 			end
-			if usenpo2 then
-				self.canvas_npo2 = c
-			else
-				self.canvas_po2 = c
-			end
+			self.canvas_npo2 = c
 		elseif self.xres ~= shaders.xres or self.yres ~= shaders.yres then
 			c.quad = love.graphics.newQuad(0, 0, shaders.xres, shaders.yres, po2xr, po2yr)
 		end
@@ -65,16 +51,16 @@ local function CreateShaderPass()
 	end
 
 	function pass:predraw()
-		if supported and self.on and self.canvas then
-			self.canvas.canvas:clear(love.graphics.getBackgroundColor())
+		if self.on and self.canvas then
 			love.graphics.setCanvas(self.canvas.canvas)
+			love.graphics.clear(love.graphics.getBackgroundColor())
 			return self.canvas.canvas
 		end
 	end
 
 	function pass:postdraw()
 		local effect = shaders.effects[self.cureffect]
-		if supported and self.on and self.cureffect and effect and self.canvas then
+		if self.on and self.cureffect and effect and self.canvas then
 			for def in pairs(effect[3]) do
 				if self.defs[def] then
 					if def == "time" then
@@ -110,13 +96,6 @@ local function CreateShaderPass()
 end
 
 
--- list of shaders that need po2-sized canvases
-shaders.needspo2 = {
-	["4xBR"] = true,
-	["waterpaint"] = true,
-	["CRT"] = true,
-}
-
 shaders.passes = {}
 
 
@@ -124,10 +103,6 @@ shaders.passes = {}
 -- numpasses is the max number of concurrent shaders (default 2)
 function shaders:init(numpasses)
 	numpasses = numpasses or 2
-
-	if not supported then
-		return
-	end
 
 	local files = love.filesystem.getDirectoryItems("shaders")
 
@@ -143,7 +118,7 @@ function shaders:init(numpasses)
 					for vtype, extern in str:gmatch("extern (%w+) (%w+)") do
 						defs[extern] = true
 					end
-					self.effects[filename] = {effect, str, defs, needspo2 = not not self.needspo2[filename]}
+					self.effects[filename] = {effect, str, defs}
 				else
 					print(string.format("shader (%s) is fucked up, yo:\n", filename), effect)
 				end
@@ -165,19 +140,17 @@ end
 -- pass nil as the second argument to disable that shader pass
 -- don't call before shaders:init()
 function shaders:set(i, shadername)
-	if not supported then return end
-
 	i = i or 1
 	local pass = self.passes[i]
 	if not pass then return end
 
-	if shadername == nil or not self.effects[shadername] or not supported then
+	if shadername == nil or not self.effects[shadername] then
 		pass.on = false
 		pass.cureffect = nil
 	else
 		pass.on = true
 		pass.cureffect = shadername
-		pass:useCanvas(supports_npo2 and not self.effects[shadername].needspo2)
+		pass:useCanvas()
 		print(string.format("post-processing shader selected for pass %d: %s", i, shadername))
 	end
 end
@@ -196,8 +169,6 @@ end
 -- automatically called on init
 -- should also be called when resolution changes or fullscreen is toggled
 function shaders:refresh()
-	if not supported then return end
-
 	if not self.scale or self.scale ~= scale
 	or not self.xres or not self.yres
 	or self.xres ~= width*16*scale or self.yres ~= height*16*scale then
@@ -218,8 +189,6 @@ end
 -- call in love.draw before drawing whatever you want post-processed
 -- note: don't change shaders in between predraw and postdraw!
 function shaders:predraw()
-	if not supported then return end
-
 	-- only predraw the first available pass here (we'll do the rest in postdraw)
 	self.curcanvas = nil
 	for i,v in ipairs(self.passes) do
@@ -234,10 +203,10 @@ end
 
 -- call in love.draw after drawing whatever you want post-processed
 function shaders:postdraw()
-	if not supported or not self.curcanvas then return end
+	if not self.curcanvas then return end
 
-	local blendmode = love.graphics.getBlendMode()
-	love.graphics.setBlendMode("premultiplied")
+	local blendmode, alphamode = love.graphics.getBlendMode()
+	love.graphics.setBlendMode("alpha", "premultiplied")
 	love.graphics.setColor(255, 255, 255)
 
 	local activepasses = {}
@@ -258,6 +227,6 @@ function shaders:postdraw()
 		v:postdraw()
 	end
 
-	love.graphics.setBlendMode(blendmode)
+	love.graphics.setBlendMode(blendmode, alphamode)
 	love.graphics.setShader()
 end

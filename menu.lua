@@ -864,11 +864,7 @@ function menu_draw()
 			end
 
 			properprint("shader1:", 30*scale, 55*scale)
-			if shaderssupported == false then
-				properprint("unsupported", (180-string.len("unsupported")*8)*scale, 55*scale)
-			else
-				properprint(string.lower(shaderlist[currentshaderi1]), (180-string.len(shaderlist[currentshaderi1])*8)*scale, 55*scale)
-			end
+			properprint(string.lower(shaderlist[currentshaderi1]), (180-string.len(shaderlist[currentshaderi1])*8)*scale, 55*scale)
 
 			if optionsselection == 4 then
 				love.graphics.setColor(255, 255, 255, 255)
@@ -876,11 +872,7 @@ function menu_draw()
 				love.graphics.setColor(100, 100, 100, 255)
 			end
 			properprint("shader2:", 30*scale, 65*scale)
-			if shaderssupported == false then
-				properprint("unsupported", (180-string.len("unsupported")*8)*scale, 65*scale)
-			else
-				properprint(string.lower(shaderlist[currentshaderi2]), (180-string.len(shaderlist[currentshaderi2])*8)*scale, 65*scale)
-			end
+			properprint(string.lower(shaderlist[currentshaderi2]), (180-string.len(shaderlist[currentshaderi2])*8)*scale, 65*scale)
 
 			love.graphics.setColor(100, 100, 100, 255)
 			properprint("shaders will really", 30*scale, 80*scale)
