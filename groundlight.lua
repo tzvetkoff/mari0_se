@@ -4,11 +4,11 @@ function groundlight:init(x, y, dir, r)
 	self.x = x
 	self.y = y
 	self.dir = dir
-	
+
 	self.timer = 0
-	
+
 	self.input1state = "off"
-	
+
 	self.lighted = false
 	--Input list
 	self.r = {unpack(r)}
@@ -53,8 +53,8 @@ function groundlight:draw()
 	else
 		love.graphics.setColor(60, 188, 252, 255)
 	end
-	
-	love.graphics.drawq(entityquads[42+self.dir].image, entityquads[42+self.dir].quad, math.floor((self.x-1-xscroll)*16*scale), ((self.y-yscroll-1)*16-8)*scale, 0, scale, scale)
+
+	love.graphics.draw(entityquads[42+self.dir].image, entityquads[42+self.dir].quad, math.floor((self.x-1-xscroll)*16*scale), ((self.y-yscroll-1)*16-8)*scale, 0, scale, scale)
 end
 
 function groundlight:input(t, input)
@@ -66,7 +66,7 @@ function groundlight:input(t, input)
 		elseif t == "toggle" then
 			self.lighted = not self.lighted
 		end
-		
+
 		self.input1state = t
 	end
 end

@@ -13,7 +13,7 @@ function actionblock:init(x, y)
 	self.static = true
 	self.category = 2
 	self.mask = {true}
-	
+
 	self.state = "off"
 	self.outtable = {}
 	self.timer = blockbouncetime
@@ -38,12 +38,12 @@ function actionblock:draw()
 			bounceyoffset = (2 - self.timer / (blockbouncetime/2)) * blockbounceheight
 		end
 	end
-	
+
 	local q = 1
 	if self.state == "on" then
 		q = 2
 	end
-	love.graphics.drawq(actionblockimg, wallindicatorquad[q], math.floor((self.x-xscroll)*16*scale), math.floor((self.y-.5-yscroll-bounceyoffset)*16*scale), 0, scale, scale)
+	love.graphics.draw(actionblockimg, wallindicatorquad[q], math.floor((self.x-xscroll)*16*scale), math.floor((self.y-.5-yscroll-bounceyoffset)*16*scale), 0, scale, scale)
 end
 
 function actionblock:floorcollide(a, b, c, d)
@@ -55,7 +55,7 @@ function actionblock:floorcollide(a, b, c, d)
 	if self.timer == blockbouncetime then
 		self.timer = 0
 	end
-	
+
 	self:out(self.state)
 end
 

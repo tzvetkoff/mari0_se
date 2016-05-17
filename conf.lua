@@ -3,7 +3,5 @@ function love.conf(t)
 	t.author = "Maurice"
 	t.identity = "mari0_se"
 	t.modules.physics = false
-	t.release = false
-	t.window = false
-	t.console = true
+	t.version = "0.10.1"
 end

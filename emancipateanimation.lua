@@ -17,11 +17,11 @@ function emancipateanimation:init(x, y, width, height, img, quad, speedx, speedy
 	self.offsetY = offsetY
 	self.quadcenterX = quadcenterX
 	self.quadcenterY = quadcenterY
-	
+
 	self.speedx = math.max(-emancemaxspeed, math.min(emancemaxspeed, self.speedx))
-	
+
 	self.speedy = math.max(-emancemaxspeed, math.min(emancemaxspeed, self.speedy))
-	
+
 	self.rotationspeed = (math.random()-.5)*8
 	self.timer = 0
 	self.timer2 = 0
@@ -33,9 +33,9 @@ function emancipateanimation:update(dt)
 
 	self.x = self.x + self.speedx*dt
 	self.y = self.y + self.speedy*dt
-	
+
 	self.rotation = self.rotation + self.rotationspeed*dt
-	
+
 	if self.timer < emancipateanimationtime-emancipatefadeouttime then
 		self.timer2 = self.timer2 + dt
 		while self.timer2 > emancipationfizzledelay do
@@ -43,7 +43,7 @@ function emancipateanimation:update(dt)
 			self.timer2 = self.timer2 -emancipationfizzledelay
 		end
 	end
-	
+
 	self.timer = self.timer + dt
 	if self.timer > emancipateanimationtime then
 		return true
@@ -58,7 +58,7 @@ function emancipateanimation:draw()
 
 	love.graphics.setColor(255*black, 255*black, 255*black, 255*a)
 	if self.quad then
-		love.graphics.drawq(self.img, self.quad, math.floor(((self.x-xscroll)*16+self.offsetX)*scale), math.floor(((self.y-yscroll)*16-self.offsetY)*scale), self.rotation, scale, scale, self.quadcenterX, self.quadcenterY)
+		love.graphics.draw(self.img, self.quad, math.floor(((self.x-xscroll)*16+self.offsetX)*scale), math.floor(((self.y-yscroll)*16-self.offsetY)*scale), self.rotation, scale, scale, self.quadcenterX, self.quadcenterY)
 	else
 		love.graphics.draw(self.img, math.floor(((self.x-xscroll)*16+self.offsetX)*scale), math.floor(((self.y-yscroll)*16-self.offsetY)*scale), self.rotation, scale, scale, self.quadcenterX, self.quadcenterY)
 	end

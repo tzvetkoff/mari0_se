@@ -17,31 +17,31 @@ function animatedquad:init(imgpath, s, number)
 	self.delays = {}
 	self.timer = 0
 	self.spikes = {}
-	
+
 	self.delays = s:split(",")
-	
+
 	if self.delays[1] == "triggered" then
 		self.triggered = true
 		table.remove(self.delays, 1)
 	end
-	
+
 	for i = 1, #self.delays do
 		self.delays[i] = tonumber(self.delays[i])
 	end
-	
+
 	local delaycount = #self.delays
 	for j = #self.delays+1, #self.quadlist do
 		self.delays[j] = self.delays[math.mod(j-1, delaycount)+1]
 	end
-	
+
 end
 
 function animatedquad:updateproperties()
 	local oldcol = self.collision
 	local oldportalable = self.portalable
-	
+
 	self.props = self.properties[self.quadi]
-	
+
 	if oldcol ~= self.props.collision then
 		for x = 1, mapwidth do
 			for y = 1, mapheight do
@@ -56,7 +56,7 @@ function animatedquad:updateproperties()
 			end
 		end
 	end
-	
+
 	if oldportalable ~= self.props.portalable then
 		for x = 1, mapwidth do
 			for y = 1, mapheight do

@@ -5,7 +5,7 @@ CATEGORYDELIMITER = "¸"
 MULTIPLYDELIMITER = "·"
 EQUALSIGN = "¨"
 
---SETABLE VARS--	
+--SETABLE VARS--
 --almost all vars are in "blocks", "blocks per second" or just "seconds". Should be obvious enough what's what.
 portalgundelay = 0.2
 gellifetime = 2
@@ -51,7 +51,7 @@ maxyspeed = 100 --SMB: 14
 jumpforce = 16
 jumpforceadd = 1.9 --how much jumpforce is added at top speed (linear from 0 to topspeed)
 headforce = 2 --how fast mario will be sent back down when hitting a block with his head
-bounceheight = 14/16 --when jumping on enemy, the height that mario will fly up
+bounceheight = 16/16 --when jumping on enemy, the height that mario will fly up
 passivespeed = 4 --speed that mario is moved against the pointing direction when inside blocks (by crouch sliding under low blocks and standing up for example)
 
 --Variables that are different for underwater
@@ -100,7 +100,7 @@ horbounceminspeedx = 2
 --items
 mushroomspeed = 3.6
 mushroomtime = 0.7 --time until it fully emerged out the block
-mushroomjumpforce = 13
+mushroomjumpforce = 16
 starjumpforce = 13
 staranimationdelay = 0.04
 mariostarblinkrate = 0.08 --/disco
@@ -378,6 +378,9 @@ gelcannondelay = 0.05
 gelcannonspeed = 30
 infinitetime = false
 infinitelives = false
+alwaysfiery = false
+nevershrink = false
+neverdie = false
 
 pausemenuoptions = {"resume", "suspend", "volume", "quit to", "quit to"}
 pausemenuoptions2 = {"", "", "", "menu", "desktop"}
@@ -418,7 +421,7 @@ pedestaltime = 1
 
 --[[ Oh noes this shit sucks
 platformwidthfunction = function (i) return math.floor(i*18+2)/2 end
-platformspeedfunction = function (i) return i*9.5+0.5 end	
+platformspeedfunction = function (i) return i*9.5+0.5 end
 platformspawndelayfunc = function (i) return i*9+1 end
 
 scaffoldwidthfunction = function (i) return math.floor(i*18+2)/2 end
@@ -446,7 +449,7 @@ upfirewaitfunction = function (i) return i*5.9+.1 end
 upfirerandomfunction = function (i) return i*6 end
 
 platformdistancefunction = function (i) return i*14.5+.5 end
-platformtimefunction = function (i) return i*9+1 end 
+platformtimefunction = function (i) return i*9+1 end
 --]]
 
 arcadeexittime = 2

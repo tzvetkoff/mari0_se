@@ -59,9 +59,9 @@ function animation:init(path, name)
 	self.filepath = path
 	self.name = name
 	self.raw = love.filesystem.read(self.filepath)
-	
+
 	self:decode(self.raw)
-	
+
 	self.firstupdate = true
 	self.running = false
 	self.sleep = 0
@@ -72,17 +72,17 @@ function animation:decode(s)
 	self.triggers = {}
 	self.conditions = {}
 	self.actions = {}
-	
+
 	local animationjson = JSON:decode(s)
 
 	for i, v in pairs(animationjson.triggers) do
 		self:addtrigger(v)
 	end
-	
+
 	for i, v in pairs(animationjson.conditions) do
 		self:addcondition(v)
 	end
-	
+
 	for i, v in pairs(animationjson.actions) do
 		self:addaction(v)
 	end
@@ -91,11 +91,11 @@ end
 function animation:addtrigger(v)
 	table.insert(self.triggers, {unpack(v)})
 	if v[1] == "mapload" then
-		
+
 	elseif v[1] == "timepassed" then
 		self.timer = 0
 	elseif v[1] == "playerx" then
-	
+
 	elseif v[1] == "animationtrigger" then
 		if not animationtriggerfuncs[v[2] ] then
 			animationtriggerfuncs[v[2] ] = {}
@@ -131,7 +131,7 @@ function animation:update(dt)
 					trig = true
 				end
 			end
-			
+
 			if trig then
 				self:trigger()
 			end
@@ -142,11 +142,11 @@ function animation:update(dt)
 					trig = true
 				end
 			end
-			
+
 			if trig then
 				self:trigger()
 			end
-			
+
 		elseif v[1] == "playerygreater" then
 			local trig = false
 			for i = 1, players do
@@ -154,7 +154,7 @@ function animation:update(dt)
 					trig = true
 				end
 			end
-			
+
 			if trig then
 				self:trigger()
 			end
@@ -165,20 +165,20 @@ function animation:update(dt)
 					trig = true
 				end
 			end
-			
+
 			if trig then
 				self:trigger()
 			end
 		end
 	end
-	
+
 	self.firstupdate = false
-	
+
 	if self.running then
 		if self.sleep > 0 then
 			self.sleep = math.max(0, self.sleep - dt)
 		end
-		
+
 		while self.sleep == 0 and self.currentaction <= #self.actions do
 			local v = self.actions[self.currentaction]
 			if v[1] == "disablecontrols" then
@@ -285,7 +285,7 @@ function animation:update(dt)
 				createdialogbox(v[2], v[3])
 			elseif v[1] == "removedialogbox" then
 				dialogboxes = {}
-			
+
 			elseif v[1] == "playmusic" then
 				love.audio.stop()
 				if v[2] then
@@ -317,12 +317,12 @@ function animation:update(dt)
 				mariotime = (tonumber(v[2]) or 400)
 			elseif v[1] == "loadlevel" then
 				love.audio.stop()
-				
+
 				marioworld = tonumber(v[2]) or marioworld
 				mariolevel = tonumber(v[3]) or mariolevel
 				mariosublevel = tonumber(v[4]) or mariosublevel
 				levelscreen_load("next")
-				
+
 			elseif v[1] == "disableplayeraim" then
 				if v[2] == "everyone" then
 					for i = 1, players do
@@ -343,7 +343,7 @@ function animation:update(dt)
 						objects["player"][tonumber(string.sub(v[2], -1))].disableaiming = false
 					end
 				end
-			
+
 			elseif v[1] == "closeportals" then
 				if v[2] == "everyone" then
 					for i = 1, players do
@@ -354,10 +354,10 @@ function animation:update(dt)
 						objects["player"][tonumber(string.sub(v[2], -1))]:removeportals()
 					end
 				end
-				
+
 			elseif v[1] == "makeplayerlook" then
 				local ang = math.mod(math.mod(tonumber(v[3]), 360)+360, 360)
-				
+
 				if v[2] == "everyone" then
 					for i = 1, players do
 						objects["player"][i].pointingangle = math.rad(ang)-math.pi/2
@@ -367,7 +367,7 @@ function animation:update(dt)
 						objects["player"][tonumber(string.sub(v[2], -1))].pointingangle = math.rad(ang)-math.pi/2
 					end
 				end
-			
+
 			elseif v[1] == "makeplayerfireportal" then
 				if tonumber(v[3]) == 1 or tonumber(v[3]) == 2 then
 					if v[2] == "everyone" then
@@ -375,22 +375,22 @@ function animation:update(dt)
 							local sourcex = objects["player"][i].x+6/16
 							local sourcey = objects["player"][i].y+6/16
 							local direction = objects["player"][i].pointingangle
-							
+
 							shootportal(i, 1, sourcex, sourcey, direction)
 						end
 					else
 						local i = tonumber(string.sub(v[2], -1))
-						
+
 						if objects["player"][i] then
 							local sourcex = objects["player"][i].x+6/16
 							local sourcey = objects["player"][i].y+6/16
 							local direction = objects["player"][i].pointingangle
-							
+
 							shootportal(i, 1, sourcex, sourcey, direction)
 						end
 					end
 				end
-				
+
 			elseif v[1] == "disableportalgun" then
 				if v[2] == "everyone" then
 					for i = 1, players do
@@ -402,7 +402,7 @@ function animation:update(dt)
 						objects["player"][i].portalgundisabled = true
 					end
 				end
-				
+
 			elseif v[1] == "enableportalgun" then
 				if v[2] == "everyone" then
 					for i = 1, players do
@@ -415,10 +415,10 @@ function animation:update(dt)
 					end
 				end
 			end
-			
+
 			self.currentaction = self.currentaction + 1
 		end
-		
+
 		if self.currentaction > #self.actions then
 			self.running = false
 		end
@@ -429,7 +429,7 @@ function animation:trigger()
 	if self.enabled then
 		--check conditions
 		local pass = true
-		
+
 		for i, v in pairs(self.conditions) do
 			if v[1] == "noprevsublevel" then
 				if prevsublevel then
@@ -459,7 +459,7 @@ function animation:trigger()
 				end
 			end
 		end
-		
+
 		if pass then
 			self.running = true
 			self.currentaction = 1
@@ -469,5 +469,5 @@ function animation:trigger()
 end
 
 function animation:draw()
-	
+
 end

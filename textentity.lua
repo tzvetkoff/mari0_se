@@ -5,11 +5,11 @@ function textentity:init(x, y, r)
 	self.y = y
 	self.power = true
 	self.text = ""
-	
+
 	self.red = 1
 	self.green = 1
 	self.blue = 1
-	
+
 	--Input list
 	self.input1state = "off"
 	self.r = {unpack(r)}
@@ -67,13 +67,13 @@ function textentity:input(t, input)
 		elseif t == "toggle" then
 			self.power = not self.power
 		end
-		
+
 		self.input1state = t
 	end
 end
 
 function textentity:update(dt)
-	
+
 end
 
 function textentity:draw()
