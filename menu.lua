@@ -1220,7 +1220,9 @@ function loadmappacks()
 
 	local delete = {}
 	for i = 1, #mappacklist do
-		if love.filesystem.exists( "mappacks/" .. mappacklist[i] .. "/version.txt") or not love.filesystem.exists( "mappacks/" .. mappacklist[i] .. "/settings.txt") then
+		if love.filesystem.exists( "mappacks/" .. mappacklist[i] .. "/version.txt") or
+				not love.filesystem.exists( "mappacks/" .. mappacklist[i] .. "/settings.txt")
+				or mappacklist[i] == "smb" then
 			table.insert(delete, i)
 		end
 	end
@@ -1230,6 +1232,9 @@ function loadmappacks()
 	for i, v in pairs(delete) do
 		table.remove(mappacklist, v) --remove
 	end
+
+	--put smb mappack on top
+	table.insert(mappacklist, 1, "smb")
 
 	mappackicon = {}
 
