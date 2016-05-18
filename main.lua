@@ -214,6 +214,14 @@ function love.load(arg)
 			love.graphics.setStencilTest("greater", 0)
 		end
 	end
+	love.graphics.setInvertedStencil = function(f)
+		if f == nil then
+			love.graphics.setStencilTest()
+		else
+			love.graphics.stencil(f, "replace", 1)
+			love.graphics.setStencilTest("less", 1)
+		end
+	end
 
 	print("Loading Mari0 SE!")
 	print("=======================")
@@ -262,7 +270,7 @@ function love.load(arg)
 	table.remove(shaderlist, rem)
 	table.insert(shaderlist, 1, "none")
 
-	iconimg = love.image.newImageData("graphics/icon.png")
+	iconimg = love.image.newImageData("graphics/iconbig.png")
 	love.window.setIcon(iconimg)
 
 	love.graphics.setDefaultFilter("nearest", "nearest")
