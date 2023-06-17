@@ -1,7 +1,7 @@
 -----------------------------------------------------------------------------------
 -- MiddleClass.lua
--- Enrique García ( enrique.garcia.cota [AT] gmail [DOT] com ) - 19 Oct 2009
--- Based on YaciCode, from Julien Patte and LuaObject, from Sébastien Rocca-Serra
+-- Enrique GarcÃ­a ( enrique.garcia.cota [AT] gmail [DOT] com ) - 19 Oct 2009
+-- Based on YaciCode, from Julien Patte and LuaObject, from SÃ©bastien Rocca-Serra
 -----------------------------------------------------------------------------------
 
 local _classes = setmetatable({}, {__mode = "k"})   -- weak table storing references to all declared _classes
@@ -88,7 +88,7 @@ setmetatable(Object, { __index = Object.__classDict, __newindex = Object.__class
 function Object.getterFor(theClass, attr) return 'get' .. attr:gsub("^%l", string.upper) end
 function Object.setterFor(theClass, attr) return 'set' .. attr:gsub("^%l", string.upper) end
 function Object.getter(theClass, attributeName, defaultValue)
-  theClass[theClass:getterFor(attributeName)] = function(self) 
+  theClass[theClass:getterFor(attributeName)] = function(self)
     if(self[attributeName]~=nil) then return self[attributeName] end
     return defaultValue
   end
