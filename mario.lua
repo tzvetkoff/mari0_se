@@ -2023,7 +2023,7 @@ function mario:grow()
 	if self.size > 2 then
 
 	else
-		local prevsize = self.size + 1
+		local prevsize = self.size
 
 		if alwaysfiery then
 			self.size = 3

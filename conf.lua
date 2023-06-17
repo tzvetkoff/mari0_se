@@ -3,5 +3,5 @@ function love.conf(t)
 	t.author = "Maurice"
 	t.identity = "mari0_se"
 	t.modules.physics = false
-	t.version = "0.10.1"
+	t.version = "0.10.2"
 end
