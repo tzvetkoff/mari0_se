@@ -14,7 +14,7 @@
 
 	"transforms": true,
 	"transformsinto": "koopa",
-	"transformtrigger": "death",
+	"transformtrigger": "stomp",
 	"stompable": true,
 
 	"movement": "truffleshuffle",
