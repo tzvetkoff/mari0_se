@@ -1,5 +1,7 @@
 # Variables
-VERSION = 0.0.1
+VERSION_BASE  = 0.0
+VERSION_PATCH = $(shell git rev-list HEAD | wc -l)
+VERSION       = $(VERSION_BASE).$(VERSION_PATCH)
 
 ##
 ##@ General
