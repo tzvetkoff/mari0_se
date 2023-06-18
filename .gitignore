@@ -4,3 +4,4 @@ Thumbs.db
 *~
 *.swp
 /makelove-build
+/local.lua

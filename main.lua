@@ -488,6 +488,8 @@ function love.load(arg)
 	require "enemies"
 	add("Requires")
 
+	pcall(require, "local")
+
 	http = require("socket.http")
 	http.PORT = 55555
 	http.TIMEOUT = 1

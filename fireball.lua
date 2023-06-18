@@ -27,7 +27,7 @@ function fireball:init(x, y, dir, v)
 
 	self.destroy = false
 	self.destroysoon = false
-	--self.gravity = 40
+	self.gravity = 100
 
 	--IMAGE STUFF
 	self.drawable = true
