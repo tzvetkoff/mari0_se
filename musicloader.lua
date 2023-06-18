@@ -67,7 +67,7 @@ function music:play(name, fast)
 	if self.loaded[name] then
 		if soundenabled then
 			self.loaded[name]:stop()
-			self.loaded[name]:rewind()
+			self.loaded[name]:seek(0)
 			self.loaded[name]:play()
 		end
 	end

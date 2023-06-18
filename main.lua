@@ -79,7 +79,7 @@ function love.run()
     end
 end
 
-function love.errhand(msg)
+function love.errhand(msg)	-- rename to love.errorhandler when moving to 11.x
 	msg = tostring(msg)
 	local trace = debug.traceback()
 
@@ -107,6 +107,9 @@ function love.errhand(msg)
 		end
 	end
 
+	for m,p in pairs(err) do
+		print(p)
+	end
 	--error_printer(msg, 2)
 
 	if versionerror then

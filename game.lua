@@ -5066,7 +5066,7 @@ function playsound(sound)
 		end
 
 		soundlist[sound].source:stop()
-		soundlist[sound].source:rewind()
+		soundlist[sound].source:seek(0)
 		soundlist[sound].source:play()
 	end
 end

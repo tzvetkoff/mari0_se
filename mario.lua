@@ -1108,7 +1108,7 @@ function mario:update(dt)
 			end
 		end
 
-		if not self.raccoonjump and self.raccoontimer == 0 and not soundlist["planemode"].source:isStopped() then
+		if not self.raccoonjump and self.raccoontimer == 0 and soundlist["planemode"].source:isPlaying() then
 			soundlist["planemode"].source:stop()
 		end
 
