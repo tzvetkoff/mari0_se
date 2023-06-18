@@ -8,7 +8,7 @@
 
 	"nospritesets": true,
 
-	"resistsfire": true,
+	"resistsfire": false,
 
 	"kills": true,
 
