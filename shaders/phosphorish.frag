@@ -45,4 +45,3 @@ vec4 effect(vec4 vcolor, Image texture, vec2 texture_coords, vec2 pixel_coords)
 
 	return vec4(intensity * result, 1.0);
 }
-

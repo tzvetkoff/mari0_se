@@ -910,7 +910,7 @@ end
 function animationguiline:draw(x, y)
 	love.graphics.setColor(0, 0, 0)
 	love.graphics.rectangle("fill", x*scale, y*scale, (width*16-x)*scale, 11*scale)
-	love.graphics.setColor(255, 255, 255)
+	love.graphics.setColor(1, 1, 1)
 
 	local xadd = 0
 	self.deletebutton.x = x+xadd
@@ -930,7 +930,7 @@ function animationguiline:draw(x, y)
 
 	for i = 1, #self.elements do
 		if self.elements[i].t == "text" then
-			love.graphics.setColor(255, 255, 255)
+			love.graphics.setColor(1, 1, 1)
 			properprint(self.elements[i].value, (x+xadd-1)*scale, (y+2)*scale)
 			xadd = xadd + self.elements[i].width
 		else

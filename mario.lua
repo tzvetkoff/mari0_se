@@ -110,8 +110,8 @@ function mario:init(x, y, i, animation, size, t)
 	self.customscissor = false
 
 	if players == 1 and not arcade then
-		self.portal1color = {60, 188, 252}
-		self.portal2color = {232, 130, 30}
+		self.portal1color = {60/255,  188/255, 252/255}
+		self.portal2color = {232/255, 130/255, 30/255}
 	else
 		self.portal1color = portalcolor[self.playernumber][1]
 		self.portal2color = portalcolor[self.playernumber][2]
@@ -1221,7 +1221,8 @@ function mario:updateangle()
 
 		local s = controls[self.playernumber]["aimx"]
 		if s[1] == "joy" then
-			x = -love.joystick.getAxis(s[2], s[4])
+			local j = love.joystick.getJoysticks()[s[2]]
+			x = j and -j:getAxis(s[4]) or 0
 			if s[5] == "neg" then
 				x = -x
 			end
@@ -1229,7 +1230,8 @@ function mario:updateangle()
 
 		s = controls[self.playernumber]["aimy"]
 		if s[1] == "joy" then
-			y = -love.joystick.getAxis(s[2], s[4])
+			local j = love.joystick.getJoysticks()[s[2]]
+			y = j and -j:getAxis(s[4]) or 0
 			if s[5] == "neg" then
 				y = -y
 			end
@@ -3534,7 +3536,7 @@ end
 
 function mario:savereplaydata()
 	local i = 1
-	while love.filesystem.exists("replay" .. i .. ".txt") do
+	while love.filesystem.getInfo("replay" .. i .. ".txt", "file") do
 		i = i + 1
 	end
 

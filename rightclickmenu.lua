@@ -58,7 +58,7 @@ function rightclickmenu:init(x, y, elements, tx, ty)
 
 			table.insert(self.t, guielement:new(v.t, self.x+1, self.y+1+(rightclickcellheight+rightclickcellspacing)*(i-1), rightclickwidth-2, 33, rightclickcellheight, current, "hor", true, v.min, v.max, v.step))
 			set = true
-			self.t[#self.t].backgroundcolor = {0, 0, 0, 255}
+			self.t[#self.t].backgroundcolor = {0, 0, 0, 1}
 
 		elseif v.t == "input" then
 			local default = v.default
@@ -101,9 +101,8 @@ function rightclickmenu:init(x, y, elements, tx, ty)
 					j = j + 1
 
 					if map[tx][ty][actuali+2] == dir then
-						add[#add].bordercolor = {255, 0, 0}
-						add[#add].bordercolorhigh = {255, 127, 127}
-
+						add[#add].bordercolor = {1, 0, 0}
+						add[#add].bordercolorhigh = {1, 0.5, 0.5}
 
 						variablesadd["value"] = dir
 					end
@@ -169,17 +168,17 @@ function rightclickmenu:update(dt)
 end
 
 function rightclickmenu:draw()
-	love.graphics.setColor(50, 50, 50, 180*rightclicka)
+	love.graphics.setColor(0.2, 0.2, 0.2, 0.7*rightclicka)
 	--background
 	love.graphics.rectangle("fill", self.x*scale, self.y*scale, rightclickwidth*scale, ((rightclickcellheight+rightclickcellspacing)*#self.elements+1)*scale)
 
 	for i, v in pairs(self.t) do
 		if type(self.t[i][1]) == "table" then
 			for j = 1, #self.t[i] do
-				self.t[i][j]:draw(rightclicka*255)
+				self.t[i][j]:draw(rightclicka)
 			end
 		else
-			self.t[i]:draw(rightclicka*255)
+			self.t[i]:draw(rightclicka)
 		end
 	end
 end
@@ -247,14 +246,14 @@ end
 
 function rightclickmenu:directioncallback(self, y, x)
 	for i = 1, #self.t[y] do
-		self.t[y][i].bordercolor = {127, 127, 127}
-		self.t[y][i].bordercolorhigh = {255, 255, 255}
+		self.t[y][i].bordercolor = {0.5, 0.5, 0.5}
+		self.t[y][i].bordercolorhigh = {1, 1, 1}
 	end
 
 	for i = 1, #self.t[y] do
 		if self.t[y][i].arguments[4] == x then
-			self.t[y][i].bordercolor = {255, 0, 0}
-			self.t[y][i].bordercolorhigh = {255, 127, 127}
+			self.t[y][i].bordercolor = {1, 0, 0}
+			self.t[y][i].bordercolorhigh = {1, 0.5, 0.5}
 			break
 		end
 	end

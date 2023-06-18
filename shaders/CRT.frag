@@ -59,9 +59,9 @@ extern vec2 textureSize;
 #endif
 
 #ifdef LINEAR_PROCESSING
-#	define TEX2D(c) pow(LEVELS(checkTexelBounds(_tex0_, (c))), vec4(inputGamma))
+#	define TEX2D(c) pow(LEVELS(checkTexelBounds(texture, (c))), vec4(inputGamma))
 #else
-#	define TEX2D(c) LEVELS(checkTexelBounds(_tex0_, (c)))
+#	define TEX2D(c) LEVELS(checkTexelBounds(texture, (c)))
 #endif
 
 
@@ -236,4 +236,3 @@ vec4 effect(vec4 vcolor, Image texture, vec2 texCoord, vec2 pixel_coords)
 	// Color the texel.
 	return vec4(mul_res * 1.0, 1.0);
 }
-

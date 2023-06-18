@@ -14,13 +14,15 @@ Beta 9 was originally found [here](http://forum.stabyourself.net/viewtopic.php?f
 
 ## Changes
 
-LÖVE 0.10.1 compatibility.
-
-A bigger and better icon. [Source](http://www.iconarchive.com/show/super-mario-icons-by-ph03nyx.html).
+- LÖVE updated to 11.4.
+- A bigger and better icon. [Source](http://www.iconarchive.com/show/super-mario-icons-by-ph03nyx.html).
+- World `5-3` fixed.
+- Fireball gravity fixed.
+- Flying Koopas fixed.
 
 ## Additions
 
-A 3 new cheats:
+3 new cheats:
 
 - Always have fire power
 - Never shrink if hit
@@ -28,7 +30,6 @@ A 3 new cheats:
 
 ## Future plans
 
-- [ ] Make it fully compatible with LÖVE 0.10.1 (and future versions in that matter)
 - [ ] Fix any outstanding bugs in the game/editor
 - [ ] Optimize the rendering performance as far as possible
 - [ ] Reorganize/refactor the code to make it easier to understand and modify in the future

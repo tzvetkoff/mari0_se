@@ -33,7 +33,7 @@ extern vec2 textureSize;
 #define outputGamma 2.2
 
 // Macros.
-#define TEX2D(c) pow(checkTexelBounds(_tex0_, (c)), vec4(inputGamma))
+#define TEX2D(c) pow(checkTexelBounds(texture, (c)), vec4(inputGamma))
 #define PI 3.141592653589
 
 
@@ -185,4 +185,3 @@ vec4 effect(vec4 vcolor, Image texture, vec2 texCoord, vec2 pixel_coords)
 
 	return vec4(pow(mul_res, vec3(1.0 / outputGamma)), 1.0);
 }
-

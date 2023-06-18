@@ -1,12 +1,13 @@
 name = "mari0_se"
-default_targets = ["win32", "win64", "appimage"]
+default_targets = ["win32", "win64", "appimage", "macos"]
 build_directory = "makelove-build"
 icon_file = "graphics/iconbig.png"
 
 love_files = [
     "::git-ls-tree::",
     "-*/.*",
-	"Makefile",
+	"-Makefile*",
+	"-local.lua",
 ]
 
 [windows.exe_metadata]
@@ -17,7 +18,7 @@ LegalCopyright = "Copyright © 2006-2023 Maurice Guégan"
 [linux.desktop_file_metadata]
 Name = "Mari0"
 
-# [macos.app_metadata]
-# CFBundleName = "Mari0"
-# CFBundleIdentifier = "net.stabyourself"
-# NSHumanReadableCopyright = "Copyright © 2006-2023 Maurice Guégan"
+[macos.app_metadata]
+CFBundleName = "Mari0"
+CFBundleIdentifier = "net.stabyourself"
+NSHumanReadableCopyright = "Copyright © 2006-2023 Maurice Guégan"

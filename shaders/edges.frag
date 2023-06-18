@@ -38,5 +38,3 @@ vec4 effect(vec4 vcolor, Image texture, vec2 tex, vec2 pixel_coords)
 	vec4 final = vec4(5.0 * grayscale(abs(res - c11)), 1.0);
 	return clamp(final, 0.0, 1.0);
 }
-
-

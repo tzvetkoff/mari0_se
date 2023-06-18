@@ -6,3 +6,5 @@ Thumbs.db
 /makelove-build
 /release
 /local.lua
+/Makefile.env
+/Makefile.local

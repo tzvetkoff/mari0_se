@@ -215,7 +215,7 @@ function box:startfall()
 	self.falling = true
 end
 
-function box:emancipate()
+function box:emancipate(_)
 	if not self.destroying then
 		local speedx, speedy = self.speedx, self.speedy
 		if self.parent then

@@ -67,7 +67,7 @@ function love.run()
 				love.graphics.setColor(0, 0, 0)
 				love.graphics.rectangle("fill", 0, 0, desktopsize.width, touchfrominsidemissing/2)
 				love.graphics.rectangle("fill", 0, desktopsize.height-touchfrominsidemissing/2, desktopsize.width, touchfrominsidemissing/2)
-				love.graphics.setColor(255, 255, 255, 255)
+				love.graphics.setColor(1, 1, 1, 1)
 			end
 		else
 			love.graphics.setScissor()
@@ -79,7 +79,7 @@ function love.run()
     end
 end
 
-function love.errhand(msg)	-- rename to love.errorhandler when moving to 11.x
+function love.errorhandler(msg)
 	msg = tostring(msg)
 	local trace = debug.traceback()
 
@@ -107,7 +107,7 @@ function love.errhand(msg)	-- rename to love.errorhandler when moving to 11.x
 		end
 	end
 
-	for m,p in pairs(err) do
+	for _, p in pairs(err) do
 		print(p)
 	end
 	--error_printer(msg, 2)
@@ -117,7 +117,7 @@ function love.errhand(msg)	-- rename to love.errorhandler when moving to 11.x
 		return
 	end
 
-	if not love.graphics.isCreated() or not love.window.isCreated() then
+	if not love.window.isOpen() then
 		local success, status = pcall(love.window.setMode, 800, 600)
 		if not success or not status then
 			return
@@ -138,10 +138,10 @@ function love.errhand(msg)	-- rename to love.errorhandler when moving to 11.x
 	end
 	if love.audio then love.audio.stop() end
 	love.graphics.reset()
-	love.graphics.setBackgroundColor(89, 157, 220)
+	love.graphics.setBackgroundColor(89/255, 157/255, 220/255)
 	local font = love.graphics.setNewFont(scale*7)
 
-	love.graphics.setColor(255, 255, 255, 255)
+	love.graphics.setColor(1, 1, 1, 1)
 
 	love.graphics.origin()
 	--love.graphics.clear()
@@ -153,16 +153,23 @@ function love.errhand(msg)	-- rename to love.errorhandler when moving to 11.x
 
 	local function draw()
 		--love.graphics.clear()
-		love.graphics.setColor(0, 0, 0, 200)
+		love.graphics.setColor(0, 0, 0, 0.8)
 		love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
 		love.graphics.setColor(0, 0, 0)
 		love.graphics.printf(p, 35*scale, 15*scale-1, love.graphics.getWidth() - 35*scale)
 		love.graphics.printf(p, 35*scale+1, 15*scale, love.graphics.getWidth() - 35*scale)
 		love.graphics.printf(p, 35*scale-1, 15*scale, love.graphics.getWidth() - 35*scale)
 		love.graphics.printf(p, 35*scale, 15*scale+1, love.graphics.getWidth() - 35*scale)
-		love.graphics.setColor(255, 255, 255, 255)
+		love.graphics.setColor(1, 1, 1, 1)
 		love.graphics.printf(p, 35*scale, 15*scale, love.graphics.getWidth() - 35*scale)
 		love.graphics.present()
+	end
+
+	local po = p
+	local function copyToClipboard()
+		if not love.system then return end
+		love.system.setClipboardText(po)
+		p = p .. "\nCopied to clipboard!"
 	end
 
 	draw()
@@ -172,10 +179,12 @@ function love.errhand(msg)	-- rename to love.errorhandler when moving to 11.x
 
 		for e, a, b, c in love.event.poll() do
 			if e == "quit" then
-				return
-			end
-			if e == "keypressed" and a == "escape" then
-				return
+				return 1
+			elseif e == "keypressed" and a == "escape" then
+				return 1
+			elseif e == "keypressed" and a == "c" and love.keyboard.isDown("lctrl", "rctrl") then
+				copyToClipboard()
+				draw()
 			end
 		end
 
@@ -207,24 +216,6 @@ function love.load(arg)
 
 	math.mod = math.fmod
 	math.random = love.math.random
-
-	-- fix stencil
-	love.graphics.setStencil = function(f)
-		if f == nil then
-			love.graphics.setStencilTest()
-		else
-			love.graphics.stencil(f, "replace", 1)
-			love.graphics.setStencilTest("greater", 0)
-		end
-	end
-	love.graphics.setInvertedStencil = function(f)
-		if f == nil then
-			love.graphics.setStencilTest()
-		else
-			love.graphics.stencil(f, "replace", 1)
-			love.graphics.setStencilTest("less", 1)
-		end
-	end
 
 	print("Loading Mari0 SE!")
 	print("=======================")
@@ -345,7 +336,7 @@ function love.load(arg)
 	end
 
 	love.graphics.clear()
-	love.graphics.setColor(100, 100, 100)
+	love.graphics.setColor(0.2, 0.2, 0.2)
 	loadingtexts = {"reticulating splines", "rendering important stuff", "01110000011011110110111001111001", "sometimes, i dream about cheese",
 					"baking cake", "happy explosion day", "raising coolness by a fifth", "yay facepunch", "stabbing myself", "sharpening knives",
 					"tanaka, thai kick", "slime will find you", "becoming self-aware", "it's a secret to everybody", "there is no minus world",
@@ -371,12 +362,12 @@ function love.load(arg)
 		logoscale = 1
 	end
 
-	love.graphics.setColor(255, 255, 255)
+	love.graphics.setColor(1, 1, 1)
 
 	love.graphics.draw(logo, love.graphics.getWidth()/2, love.graphics.getHeight()/2, 0, logoscale, logoscale, 142, 150)
-	love.graphics.setColor(150, 150, 150)
+	love.graphics.setColor(0.6, 0.6, 0.6)
 	properprint("loading mari0 se..", love.graphics.getWidth()/2-string.len("loading mari0 se..")*4*scale, love.graphics.getHeight()/2-170*logoscale-7*scale)
-	love.graphics.setColor(50, 50, 50)
+	love.graphics.setColor(0.2, 0.2, 0.2)
 	properprint(loadingtext, love.graphics.getWidth()/2-string.len(loadingtext)*4*scale, love.graphics.getHeight()/2+165*logoscale)
 	love.graphics.present()
 
@@ -528,16 +519,16 @@ function love.load(arg)
 
 	--Backgroundcolors
 	backgroundcolor = {
-						{92, 148, 252},
-						{0, 0, 0},
-						{32, 56, 236},
-						{158, 219, 248},
-						{210, 159, 229},
-						{237, 241, 243},
-						{244, 178, 92},
-						{253, 246, 175},
-						{249, 183, 206},
-					}
+		{92  / 255,	148 / 255,	252 / 255},
+		{0   / 255,	0   / 255,	0   / 255},
+		{32  / 255,	56  / 255,	236 / 255},
+		{158 / 255,	219 / 255,	248 / 255},
+		{210 / 255,	159 / 255,	229 / 255},
+		{237 / 255,	241 / 255,	243 / 255},
+		{244 / 255,	178 / 255,	92  / 255},
+		{253 / 255,	246 / 255,	175 / 255},
+		{249 / 255,	183 / 255,	206 / 255},
+	}
 	add("Update Check, variables")
 
 	--IMAGES--
@@ -1030,13 +1021,11 @@ function love.draw()
 
 	shaders:postdraw()
 
-	love.graphics.setColor(255, 255,255)
+	love.graphics.setColor(1, 1, 1)
 
 	if recording then
-		screenshotimagedata = love.graphics.newScreenshot( )
-		screenshotimagedata:encode("recording/" .. recordframe .. ".png")
+		love.graphics.captureScreenshot("recording/" .. recordframe .. ".png")
 		recordframe = recordframe + 1
-		screenshotimagedata = nil
 
 		if recordframe%100 == 0 then
 			collectgarbage("collect")
@@ -1165,7 +1154,7 @@ function loadconfig()
 	players = 1
 	defaultconfig()
 
-	if not love.filesystem.exists("options.txt") then
+	if not love.filesystem.getInfo("options.txt", "file") then
 		return
 	end
 
@@ -1244,7 +1233,7 @@ function loadconfig()
 		elseif s2[1] == "mouseowner" then
 			mouseowner = tonumber(s2[2])
 		elseif s2[1] == "mappack" then
-			if love.filesystem.exists("mappacks/" .. s2[2] .. "/settings.txt") then
+			if love.filesystem.getInfo("mappacks/" .. s2[2] .. "/settings.txt", "file") then
 				mappack = s2[2]
 			end
 		elseif s2[1] == "gamefinished" then
@@ -1346,22 +1335,23 @@ function defaultconfig()
 	--3: skin (yellow-orange)
 
 	mariocolors = {}
-	mariocolors[1] = {{224,  32,   0}, {136, 112,   0}, {252, 152,  56}}
-	mariocolors[2] = {{255, 255, 255}, {  0, 160,   0}, {252, 152,  56}}
-	mariocolors[3] = {{  0,   0,   0}, {200,  76,  12}, {252, 188, 176}}
-	mariocolors[4] = {{ 32,  56, 236}, {  0, 128, 136}, {252, 152,  56}}
+	mariocolors[1] = {{224/255,  32/255,   0/255}, {136/255, 112/255,   0/255}, {252/255, 152/255,  56/255}}
+	mariocolors[2] = {{255/255, 255/255, 255/255}, {  0/255, 160/255,   0/255}, {252/255, 152/255,  56/255}}
+	mariocolors[3] = {{  0/255,   0/255,   0/255}, {200/255,  76/255,  12/255}, {252/255, 188/255, 176/255}}
+	mariocolors[4] = {{ 32/255,  56/255, 236/255}, {  0/255, 128/255, 136/255}, {252/255, 152/255,  56/255}}
 	for i = 5, players do
 		mariocolors[i] = mariocolors[math.random(4)]
 	end
 
 	--STARCOLORS
 	starcolors = {}
-	starcolors[1] = {{  0,   0,   0}, {200,  76,  12}, {252, 188, 176}}
-	starcolors[2] = {{  0, 168,   0}, {252, 152,  56}, {252, 252, 252}}
-	starcolors[3] = {{252, 216, 168}, {216,  40,   0}, {252, 152,  56}}
-	starcolors[4] = {{216,  40,   0}, {252, 152,  56}, {252, 252, 252}}
+	starcolors[1] = {{  0/255,   0/255,   0/255}, {200/255,  76/255,  12/255}, {252/255, 188/255, 176/255}}
+	starcolors[2] = {{  0/255, 168/255,   0/255}, {252/255, 152/255,  56/255}, {252/255, 252/255, 252/255}}
+	starcolors[3] = {{252/255, 216/255, 168/255}, {216/255,  40/255,   0/255}, {252/255, 152/255,  56/255}}
+	starcolors[4] = {{216/255,  40/255,   0/255}, {252/255, 152/255,  56/255}, {252/255, 252/255, 252/255}}
 
-	flowercolor = {{252, 216, 168}, {216,  40,   0}, {252, 152,  56}}
+	--FLOWERCOLOR
+	flowercolor = {{252/255, 216/255, 168/255}, {216/255, 40/255, 0}, {252/255, 152/255,  56/255}}
 
 	--CHARACTERS
 	mariocharacter = {"mario", "mario", "mario", "mario"}
@@ -1380,6 +1370,16 @@ function defaultconfig()
 	fullscreenmode = "letterbox"
 
 	reachedworlds = {}
+
+
+	-- XXX:XXX:XXX:XXX Remove me
+	if love.filesystem.getInfo("local.lua", "file") then
+		scale = 4
+		controls[i]["run"] = {"t"}
+		controls[i]["jump"] = {"y"}
+		controls[i]["reload"] = {"u"}
+		controls[i]["use"] = {"r"}
+	end
 end
 
 function loadcustomimages(path)
@@ -1392,7 +1392,7 @@ function loadcustomimages(path)
 	local fl = love.filesystem.getDirectoryItems(path)
 	for i = 1, #fl do
 		local v = fl[i]
-		if love.filesystem.isFile(path .. "/" .. v) then
+		if love.filesystem.getInfo(path .. "/" .. v, "file") then
 			local s = string.sub(v, 1, -5)
 			if tablecontains(imagelist, s) then
 				_G[s .. "img"] = love.graphics.newImage(path .. "/" .. v)
@@ -1410,7 +1410,7 @@ function loadcustomimages(path)
 	local width = math.floor(imgwidth/17)
 	local height = math.floor(imgheight/17)
 	local imgdata
-	if love.filesystem.isFile(path .. "/smbtiles.png") then
+	if love.filesystem.getInfo(path .. "/smbtiles.png", "file") then
 		imgdata = love.image.newImageData(path .. "/smbtiles.png")
 	else
 		imgdata = love.image.newImageData("graphics/DEFAULT/smbtiles.png")
@@ -1430,7 +1430,7 @@ function loadcustomimages(path)
 	local width = math.floor(imgwidth/17)
 	local height = math.floor(imgheight/17)
 	local imgdata
-	if love.filesystem.isFile(path .. "/portaltiles.png") then
+	if love.filesystem.getInfo(path .. "/portaltiles.png", "file") then
 		imgdata = love.image.newImageData(path .. "/portaltiles.png")
 	else
 		imgdata = love.image.newImageData("graphics/DEFAULT/portaltiles.png")
@@ -1476,7 +1476,7 @@ function suspendgame()
 end
 
 function continuegame()
-	if not love.filesystem.exists("suspend.txt") then
+	if not love.filesystem.getInfo("suspend.txt", "file") then
 		return
 	end
 
@@ -1739,7 +1739,6 @@ function round(num, idp) --Not by me
 end
 
 function getrainbowcolor(i)
-	local whiteness = 255
 	local r, g, b
 	if i < 1/6 then
 		r = 1
@@ -1767,7 +1766,7 @@ function getrainbowcolor(i)
 		b = (1/6-(i-5/6))*6
 	end
 
-	return {round(r*whiteness), round(g*whiteness), round(b*whiteness), 255}
+	return {r, g, b, 1}
 end
 
 function newRecoloredImage(path, tablein, tableout)
@@ -1778,7 +1777,7 @@ function newRecoloredImage(path, tablein, tableout)
 		for x = 0, width-1 do
 			local oldr, oldg, oldb, olda = imagedata:getPixel(x, y)
 
-			if olda > 128 then
+			if olda > 0.5 then
 				for i = 1, #tablein do
 					if oldr == tablein[i][1] and oldg == tablein[i][2] and oldb == tablein[i][3] then
 						local r, g, b = unpack(tableout[i])
@@ -1825,7 +1824,7 @@ function getaveragecolor(imgdata, cox, coy)
 	for x = xstart, xstart+15 do
 		for y = ystart, ystart+15 do
 			local pr, pg, pb, a = imgdata:getPixel(x, y)
-			if a > 127 then
+			if a > 0.5 then
 				r, g, b = r+pr, g+pg, b+pb
 				count = count + 1
 			end
@@ -1839,9 +1838,10 @@ end
 
 function keyprompt_update()
 	if keyprompt then
+		local js = love.joystick.getJoysticks()
 		for i = 1, prompt.joysticks do
 			for j = 1, #prompt.joystick[i].validhats do
-				local dir = love.joystick.getHat(i, prompt.joystick[i].validhats[j])
+				local dir = js[i]:getHat(prompt.joystick[i].validhats[j])
 				if dir ~= "c" then
 					keypromptenter("joyhat", i, prompt.joystick[i].validhats[j], dir)
 					return
@@ -1849,7 +1849,7 @@ function keyprompt_update()
 			end
 
 			for j = 1, prompt.joystick[i].axes do
-				local value = love.joystick.getAxis(i, j)
+				local value = js[i]:getAxis(j)
 				if value > prompt.joystick[i].axisposition[j] + joystickdeadzone then
 					keypromptenter("joyaxis", i, j, "pos")
 					return
@@ -1874,7 +1874,7 @@ end
 function love.focus(f)
 	--[[if not f and gamestate == "game"and not editormode and not levelfinished and not everyonedead  then
 		pausemenuopen = true
-		love.audio.pause()
+		paused = love.audio.pause()
 	end--]]
 end
 
@@ -1986,7 +1986,7 @@ function loadcustombackgrounds()
 	for i = 1, #fl do
 		local v = "mappacks/" .. mappack .. "/backgrounds/" .. fl[i]
 
-		if love.filesystem.isFile(v) then
+		if love.filesystem.getInfo(v, "file") then
 			if string.sub(v, -5, -5) == "1" then
 				local name = string.sub(fl[i], 1, -6)
 				local bg = string.sub(v, 1, -6)
@@ -1996,7 +1996,7 @@ function loadcustombackgrounds()
 				custombackgroundwidth[name] = {}
 				custombackgroundheight[name] = {}
 
-				while love.filesystem.exists(bg .. i .. ".png") do
+				while love.filesystem.getInfo(bg .. i .. ".png", "file") do
 					custombackgroundimg[name][i] = love.graphics.newImage(bg .. i .. ".png")
 					custombackgroundwidth[name][i] = custombackgroundimg[name][i]:getWidth()/16
 					custombackgroundheight[name][i] = custombackgroundimg[name][i]:getHeight()/16
@@ -2024,7 +2024,7 @@ function loadlevelscreens()
 
 	for i = 1, #fl do
 		local v = "mappacks/" .. mappack .. "/levelscreens/" .. fl[i]
-		if love.filesystem.isFile(v) then
+		if love.filesystem.getInfo(v, "file") then
 			table.insert(levelscreens, string.lower(string.sub(fl[i], 1, -5)))
 		end
 	end
@@ -2052,20 +2052,22 @@ function loadanimatedtiles()
 	end
 
 	local function loadfolder(folder)
-		local fl = love.filesystem.getDirectoryItems(folder)
-
 		local i = 1
-		while love.filesystem.isFile(folder .. "/" .. i .. ".png") do
-			local v = folder .. "/" .. i .. ".png"
-			if love.filesystem.isFile(v) and string.sub(v, -4) == ".png" then
-				if love.filesystem.isFile(string.sub(v, 1, -5) .. ".txt") then
-					animatedtilecount = animatedtilecount + 1
-					local number = animatedtilecount+10000
-					local t = animatedquad:new(v, love.filesystem.read(string.sub(v, 1, -5) .. ".txt"), number)
-					tilequads[number] = t
-					table.insert(animatedtiles, t)
-				end
+		while true do
+			local png = folder .. "/" .. i .. ".png"
+			if not love.filesystem.getInfo(png, "file") then
+				break
 			end
+
+			local txt = folder .. "/" .. i .. ".txt"
+			if love.filesystem.getInfo(txt, "file") then
+				animatedtilecount = animatedtilecount + 1
+				local number = animatedtilecount+10000
+				local t = animatedquad:new(png, love.filesystem.read(txt), number)
+				tilequads[number] = t
+				table.insert(animatedtiles, t)
+			end
+
 			i = i + 1
 		end
 	end
@@ -2077,7 +2079,7 @@ function loadanimatedtiles()
 end
 
 function loadcustomtiles()
-	if love.filesystem.exists("mappacks/" .. mappack .. "/tiles.png") then
+	if love.filesystem.getInfo("mappacks/" .. mappack .. "/tiles.png", "file") then
 		customtiles = true
 		customtilesimg = love.graphics.newImage("mappacks/" .. mappack .. "/tiles.png")
 		local imgwidth, imgheight = customtilesimg:getWidth(), customtilesimg:getHeight()

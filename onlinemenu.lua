@@ -22,12 +22,12 @@ function onlinemenu_load()
 	guielements.magiccheckbox = guielement:new("checkbox", 220, 147, togglemagic, true)
 
 	guielements.hostbutton = guielement:new("button", 247, 199, "create game", creategame, 2)
-	guielements.hostbutton.bordercolor = {255, 0, 0}
-	guielements.hostbutton.bordercolorhigh = {255, 127, 127}
+	guielements.hostbutton.bordercolor = {1, 0, 0}
+	guielements.hostbutton.bordercolorhigh = {1, 0.5, 0.5}
 
 	guielements.joinbutton = guielement:new("button", 61, 199, "join game", joingame, 2)
-	guielements.joinbutton.bordercolor = {0, 255, 0}
-	guielements.joinbutton.bordercolorhigh = {127, 255, 127}
+	guielements.joinbutton.bordercolor = {0, 1, 0}
+	guielements.joinbutton.bordercolorhigh = {0.5, 1, 0.5}
 
 	runanimationtimer = 0
 	runanimationframe = 1
