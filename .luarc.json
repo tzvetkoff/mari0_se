@@ -1,28 +1,28 @@
 {
-  "$schema": "https://raw.githubusercontent.com/sumneko/vscode-lua/master/setting/schema.json",
-  "color": {
-    "mode": "SemanticEnhanced"
-  },
-  "diagnostics": {
-    "disable": [
-      "undefined-global"
-    ],
-    "globals": [
-      "love"
-    ]
-  },
-  "runtime": {
-    "version": "LuaJIT",
-    "path": [
-      "deps/share/lua/5.1/?.lua",
-      "deps/share/lua/5.1/?/init.lua"
-    ],
-    "pathStrict": true
-  },
-  "runtime.special": {
-    "love.filesystem.load": "loadfile"
-  },
-  "workspace.library": [
-    "${3rd}/love2d/library"
-  ]
+	"$schema": "https://raw.githubusercontent.com/sumneko/vscode-lua/master/setting/schema.json",
+	"color": {
+		"mode": "SemanticEnhanced"
+	},
+	"diagnostics": {
+		"disable": [
+			"undefined-global"
+		],
+		"globals": [
+			"love"
+		]
+	},
+	"runtime": {
+		"version": "LuaJIT",
+		"path": [
+			"deps/share/lua/5.1/?.lua",
+			"deps/share/lua/5.1/?/init.lua"
+		],
+		"pathStrict": true
+	},
+	"runtime.special": {
+		"love.filesystem.load": "loadfile"
+	},
+	"workspace.library": [
+		"${3rd}/love2d/library"
+	]
 }

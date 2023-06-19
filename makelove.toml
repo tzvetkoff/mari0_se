@@ -1,12 +1,18 @@
 name = "mari0_se"
-default_targets = ["win32", "win64", "appimage", "macos"]
+default_targets = [
+	"appimage",
+	"win32",
+	"win64",
+	"macos",
+]
 build_directory = "makelove-build"
 icon_file = "graphics/iconbig.png"
 
 love_files = [
-    "::git-ls-tree::",
-    "-*/.*",
-	"-Makefile*",
+	"::git-ls-tree::",
+	"-*/.*",
+	"-*/makelove*",
+	"-*/Makefile*",
 	"-local.lua",
 ]
 

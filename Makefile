@@ -49,15 +49,15 @@ build:
 	makelove -n $(VERSION)
 	mkdir -p ./release/$(VERSION)
 	cp ./makelove-build/$(VERSION)/love/mari0_se.love         ./release/$(VERSION)/mari0_se-v$(VERSION).love
-	mv ./makelove-build/$(VERSION)/appimage/mari0_se.AppImage ./release/$(VERSION)/mari0_se-v$(VERSION).AppImage
-	mv ./makelove-build/$(VERSION)/macos/mari0_se-macos.zip   ./release/$(VERSION)/mari0_se-v$(VERSION)-macos.zip
-	mv ./makelove-build/$(VERSION)/win32/mari0_se-win32.zip   ./release/$(VERSION)/mari0_se-v$(VERSION)-win32.zip
-	mv ./makelove-build/$(VERSION)/win64/mari0_se-win64.zip   ./release/$(VERSION)/mari0_se-v$(VERSION)-win64.zip
+	cp ./makelove-build/$(VERSION)/appimage/mari0_se.AppImage ./release/$(VERSION)/mari0_se-v$(VERSION).AppImage
+	cp ./makelove-build/$(VERSION)/macos/mari0_se-macos.zip   ./release/$(VERSION)/mari0_se-v$(VERSION)-macos.zip
+	cp ./makelove-build/$(VERSION)/win32/mari0_se-win32.zip   ./release/$(VERSION)/mari0_se-v$(VERSION)-win32.zip
+	cp ./makelove-build/$(VERSION)/win64/mari0_se-win64.zip   ./release/$(VERSION)/mari0_se-v$(VERSION)-win64.zip
 
 ## Release
 .PHONY: release
 release:
-	gh release create $(VERSION) ./release/$(VERSION)/*.*
+	gh release create --generate-notes $(VERSION) ./release/$(VERSION)/*.*
 
 ## Clean
 .PHONY: clean
