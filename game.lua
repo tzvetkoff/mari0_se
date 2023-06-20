@@ -1593,7 +1593,7 @@ function game_draw()
 								if type(v.graphic) == "table" then
 									for k = 1, #v.graphic do
 										if v.colors[k] then
-											love.graphics.setColor(v.colors[k])
+											love.graphics.setColor(unpack(v.colors[k]))
 										else
 											love.graphics.setColor(1, 1, 1)
 										end
@@ -1612,7 +1612,7 @@ function game_draw()
 										for i = 1, #v.hats do
 											if v.hats[i] ~= 0 then
 												if v.hats[i] == 1 then
-													love.graphics.setColor(v.colors[1])
+													love.graphics.setColor(unpack(v.colors[1]))
 												else
 													love.graphics.setColor(1, 1, 1)
 												end
@@ -1993,7 +1993,7 @@ function game_draw()
 						love.graphics.draw(scenecanvas, (offx+ox)*16*scale, (offy+oy)*16*scale, a, xscale, yscale, ox*16*scale, oy*16*scale)
 
 						local r, g, b = unpack(v["portal" .. i .. "color"])
-						--love.graphics.setColor(r, g, b, 150)
+						--love.graphics.setColor(r, g, b, 0.6)
 						--love.graphics.rectangle("fill", 0, 0, width*16*scale, height*16*scale)
 
 						love.graphics.setStencilTest()

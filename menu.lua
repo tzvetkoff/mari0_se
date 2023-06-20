@@ -382,9 +382,9 @@ function menu_draw()
 					end
 
 					--description
-					love.graphics.setColor(130, 130, 130)
+					love.graphics.setColor(0.5, 0.5, 0.5)
 					if mappackselection == i then
-						love.graphics.setColor(180, 180, 180)
+						love.graphics.setColor(0.7, 0.7, 0.7)
 					end
 
 					if mappackdescription[i] then
@@ -655,11 +655,11 @@ function menu_draw()
 				properprint("press \"esc\" to cancel", 40*scale, 140*scale)
 
 				if buttonerror then
-					love.graphics.setColor(200, 0, 0)
+					love.graphics.setColor(0.8, 0, 0)
 					properprint("you can only set", 40*scale, 120*scale)
 					properprint("buttons for this", 40*scale, 130*scale)
 				elseif axiserror then
-					love.graphics.setColor(200, 0, 0)
+					love.graphics.setColor(0.8, 0, 0)
 					properprint("you can only set", 40*scale, 120*scale)
 					properprint("axes for this", 40*scale, 130*scale)
 				end
@@ -1296,7 +1296,7 @@ end
 function loadonlinemappacks()
 	mappacktype = "online"
 	downloadmappacks()
-	onlinemappacklist = love.filesystem.getDirectoryItems( "mappacks" )
+	onlinemappacklist = love.filesystem.getDirectoryItems("mappacks")
 
 	local delete = {}
 	for i = 1, #onlinemappacklist do
@@ -1368,7 +1368,7 @@ end
 
 function downloadmappacks()
 	downloaderror = false
-	local onlinedata, code = http.request("http://server.stabyourself.net/mari0/index2.php?mode=mappacks")
+	local onlinedata, code = http.request("https://server.stabyourself.net/mari0/index2.php?mode=mappacks")
 
 	if code ~= 200 then
 		downloaderror = true
@@ -1424,7 +1424,7 @@ function downloadmappacks()
 			end
 
 			love.filesystem.createDirectory("mappacks/" .. maplist[i])
-			local onlinedata, code = http.request("http://server.stabyourself.net/mari0/index2.php?mode=getmap&get=" .. maplist[i])
+			local onlinedata, code = http.request("https://server.stabyourself.net/mari0/index2.php?mode=getmap&get=" .. maplist[i])
 
 			if code == 200 then
 				filecount = 0

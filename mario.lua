@@ -1893,6 +1893,9 @@ function gethatoffset(char, graphic, animationstate, runframe, jumpframe, climbf
 end
 
 function mario:jump(force)
+	-- Jump resets combo
+	self.combo = 1
+
 	if ((not noupdate or self.animation == "grow1" or self.animation == "grow2") and self.controlsenabled) or force then
 
 		if not self.underwater then
@@ -2245,7 +2248,7 @@ function mario:stompenemy(a, b, c, d, side)
 			playsound("shot")
 			if b.speedx == 0 then
 				addpoints(500, b.x, b.y)
-				self.combo = 1
+				-- self.combo = 1
 			end
 		else
 			playsound("stomp")
@@ -2257,6 +2260,14 @@ function mario:stompenemy(a, b, c, d, side)
 			addpoints(mariocombo[self.combo], self.x, self.y)
 			if self.combo < #mariocombo then
 				self.combo = self.combo + 1
+			else
+				if mariolivecount ~= false then
+					for i = 1, players do
+						mariolives[i] = mariolives[i]+1
+					end
+				end
+				table.insert(scrollingscores, scrollingscore:new("1up", self.x, self.y))
+				playsound("oneup")
 			end
 
 			local grav = self.gravity or yacceleration
