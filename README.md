@@ -14,7 +14,7 @@ Beta 9 was originally found [here](http://forum.stabyourself.net/viewtopic.php?f
 
 ## Changes
 
-- LÖVE updated to 11.4.
+- LÖVE updated to 11.5.
 - A bigger and better icon. [Source](http://www.iconarchive.com/show/super-mario-icons-by-ph03nyx.html).
 - World `5-3` fixed.
 - Fireball gravity fixed.
